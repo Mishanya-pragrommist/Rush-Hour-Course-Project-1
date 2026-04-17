@@ -57,15 +57,11 @@ namespace RushHourGame
     }
 
     // === To work with records file === 
-
     
     void Scene::resetRecords() {
         std::ofstream fout; 
         fout.open(path);
-        if (!fout.is_open()) {
-            perror("Error: file records.txt wasnt opened\n");
-            exit(EXIT_FAILURE);
-        }
+        
         for (int i = 0; i < num_of_levels; i++) {
             fout << 0 << " ";
             records[i] = 0;
@@ -75,10 +71,7 @@ namespace RushHourGame
     void Scene::getRecords() {
         std::ifstream fin;
         fin.open(path);
-        if (!fin.is_open()) {
-            perror("Error: file records.txt wasnt opened\n");
-            exit(EXIT_FAILURE);
-        }
+        
         for (int i = 0; i < num_of_levels; i++) {
             fin >> records[i];
         }
@@ -87,10 +80,7 @@ namespace RushHourGame
     void Scene::setRecords() const { 
         std::ofstream fout; 
         fout.open(path);
-        if (!fout.is_open()) {
-            perror("Error: file records.txt wasnt opened\n");
-            exit(EXIT_FAILURE);
-        }
+        
         for (int i = 0; i < num_of_levels; i++) {
             fout << records[i] << " ";
         }
@@ -270,24 +260,25 @@ namespace RushHourGame
         //While playing
         if (!finish) { 
             glColor3f(1, 1, 0);
-            sprintf_s(buffer, "Esc: Exit, R: Restart, Q: reset records, 1-7 or A D: Switch Levels");
+            
+            snprintf(buffer, sizeof(buffer), "Esc: Exit, R: Restart, Q: reset records, 1-7 or A D: Switch Levels");
             draw_string(GLUT_BITMAP_TIMES_ROMAN_24, buffer, 0.01, yText);
 
             glColor3f(0, 1, 0);
-            sprintf_s(buffer, "Level: %d", currentLevel);
+            snprintf(buffer, sizeof(buffer), "Level: %d", currentLevel);
             draw_string(GLUT_BITMAP_TIMES_ROMAN_24, buffer, 0.01, yText - 0.05);
 
             glColor3f(1, 0.6, 0);
-            sprintf_s(buffer, "Time, sec: %d", time);
+            snprintf(buffer, sizeof(buffer), "Time, sec: %d", time);
             draw_string(GLUT_BITMAP_TIMES_ROMAN_24, buffer, 0.01, yText - 0.1);
 
             if (records[currentLevel - 1] > 0) {
                 glColor3f(1, 1, 1);                
-                sprintf_s(buffer, "Your record here: %d sec", records[currentLevel - 1]);
+                snprintf(buffer, sizeof(buffer), "Your record here: %d sec", records[currentLevel - 1]);
             }
             else {
                 glColor3f(1, 0, 0);
-                sprintf_s(buffer, "You've not got record here yet");
+                snprintf(buffer, sizeof(buffer), "You've not got record here yet");
             }
             draw_string(GLUT_BITMAP_TIMES_ROMAN_24, buffer, 0.01, yText - 0.15);
         }
@@ -297,44 +288,44 @@ namespace RushHourGame
                 records[currentLevel - 1] = time; //If user beated record, it is overwtitten
             }
             glColor3f(1, 1, 0);
-            sprintf_s(buffer, "Level %d completed. Your time is %d sec", currentLevel, time);
+            snprintf(buffer, sizeof(buffer), "Level %d completed. Your time is %d sec", currentLevel, time);
             draw_string(GLUT_BITMAP_TIMES_ROMAN_24, buffer, xText, yText);
 
             // Set record text color
             if (time <= records[currentLevel - 1]) {
                 glColor3f(0, 1, 0); //Green - if user beat record
-                sprintf_s(buffer, "Your NEW record is %d sec here =)", records[currentLevel - 1]);
+                snprintf(buffer, sizeof(buffer), "Your NEW record is %d sec here =)", records[currentLevel - 1]);
             }
             else {
                 glColor3f(1, 0.2, 0.2); //Red - if user didnt
-                sprintf_s(buffer, "Your record is %d sec here =/", records[currentLevel - 1]);
+                snprintf(buffer, sizeof(buffer), "Your record is %d sec here =/", records[currentLevel - 1]);
             }
             draw_string(GLUT_BITMAP_TIMES_ROMAN_24, buffer, xText, yText - 0.05); 
 
             //Judgement of records
             if (time >= 0 && time < 10) {
                 glColor3f(1, 1, 1);
-                sprintf_s(buffer, "Excellent result!");
+                snprintf(buffer, sizeof(buffer), "Excellent result!");
             }
             else if (time >= 10 && time < 20) {
                 glColor3f(0.3, 0.9, 0.3);
-                sprintf_s(buffer, "Pretty good=)");
+                snprintf(buffer, sizeof(buffer), "Pretty good=)");
             }
             else if (time >= 20 && time < 40) {
                 glColor3f(0.7, 0.7, 1);
-                sprintf_s(buffer, "Not bad, but neither good");
+                snprintf(buffer, sizeof(buffer), "Not bad, but neither good");
             }
             else if (time >= 40 && time < 60) {
                 glColor3f(1, 0.7, 0);
-                sprintf_s(buffer, "I know you can do it better(=");
+                snprintf(buffer, sizeof(buffer), "I know you can do it better(=");
             }
             else if (time >= 60 && time < 100){
                 glColor3f(1, 0.2, 0.2);
-                sprintf_s(buffer, "...have you even tryed?");
+                snprintf(buffer, sizeof(buffer), "...have you even tryed?");
             }
             else {
                 glColor3f(0, 0, 0);
-                sprintf_s(buffer, "Nothing to say...");
+                snprintf(buffer, sizeof(buffer), "Nothing to say...");
             }
             draw_string(GLUT_BITMAP_TIMES_ROMAN_24, buffer, xText, yText - 0.1);
             setRecords();
