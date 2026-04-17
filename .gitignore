@@ -1,0 +1,30 @@
+# --- Visual Studio ---
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+
+# --- Build Artifacts ---
+Debug/
+Release/
+x86/
+[Bb]in/
+[Oo]bj/
+*.exe
+*.dll
+*.lib
+*.pdb
+*.ilk
+*.exp
+
+# --- NuGet ---
+packages/*
+!packages/repositories.config
+
+# --- Временные файлы компилятора и Intellisense ---
+*.sdf
+*.opensdf
+*.ipch
+*.log
+*.tlog
+*.lastbuildstate
